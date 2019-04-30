@@ -64,18 +64,44 @@ def favor(user):
     else:
         check(user)
 
+def intro():
+    print("1. Dice-Roller\n"
+          "2. Settings\n"
+          "3. Exit")
+
+def settings_menu():
+    print("1.FAVORABLE\n"
+          "2. AGAINST\n"
+          "3.NEUTRAL\n"
+          "4. BACK")
+
+def roll_chances(roll_type):
+    file = open("rolltype.txt", "wt")
+    file.write(roll_type)
+    file.close()
+
 while True:
-    print("To exit type [EXIT]")
-    setting = input("Enter chances of roll[e.x: For, Against, Neutral]: ")
-    if setting.upper() == "EXIT":
-        exit()
-    else:
+    intro()
+    option = input()
+    if option == "1":
+        file = open("rolltype.txt", "r")
         user = input("Enter what you want to roll[e.x: 2d8]: ")
-        if setting.upper() == "FOR":
+        read = file.readline()
+        if read == "1":
+            print("Favor")
             favor(user)
-        elif setting.upper() == "AGAINST":
+        elif read == "2":
+            print("AGAINST")
             against(user)
-        elif setting.upper() == "NEUTRAL":
+        elif read == "3": #or file.readline() == None:
+            print("NEUTRAL")
             check(user)
-        else:
-            print("NOT VALID CHANCE TYPE!")
+        file.close()
+    elif option == "2":
+        settings_menu()
+        roll_type = input()
+        if roll_type != "4":
+            roll_chances(roll_type)
+    elif option == "3":
+        print("EXITING PROGRAM...")
+        exit()
