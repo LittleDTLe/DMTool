@@ -86,7 +86,7 @@ while True:
     if option == "1":
         file = open("rolltype.txt", "r")
         user = input("Enter what you want to roll[e.x: 2d8]: ")
-        read = file.readline()
+        read = file.readline().strip()
         if read == "1":
             print("Favor")
             favor(user)
