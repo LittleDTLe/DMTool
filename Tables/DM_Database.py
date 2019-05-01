@@ -1,5 +1,6 @@
 import mysql.connector
-#import sys
+import os
+import random
 
 mydb = mysql.connector.connect(
     host="localhost",
@@ -74,33 +75,80 @@ def popEst():
     my_cursor.executemany(sql, records)
     mydb.commit()
 
-print("1. SHOW TABLES\n"
-      "2. CHOOSE TABLE\n"
-      "3. MODIFY TABLE\n"
-      "4. CREATE TABLE\n")
-choice = int(input("Enter input: "))
+#Random Entry from Loot Table
+def randomLoot():
+    my_cursor = mydb.cursor()
+    my_cursor.execute("SELECT * FROM loot")
+    lines = my_cursor.fetchall()
+    entries = 0
+    for line in lines:
+        entries += 1
+    my_cursor.close()
+    ran_entry = random.randint(1, entries)
+    my_cursor = mydb.cursor()
+    sql = "SELECT * FROM loot WHERE id = %s"
+    id = (ran_entry,)
+    my_cursor.execute(sql, id)
+    entry = my_cursor.fetchone()
+    print("Name: " + entry[0] + "\nDescription: " + entry[1])
 
+#Random Entry from Establishment Table
+def randomEst():
+    my_cursor = mydb.cursor()
+    my_cursor.execute("SELECT * FROM establishment")
+    lines = my_cursor.fetchall()
+    entries = 0
+    for line in lines:
+        entries += 1
+    my_cursor.close()
+    ran_entry = random.randint(1, entries)
+    my_cursor = mydb.cursor()
+    sql = "SELECT * FROM establishment WHERE id = %s"
+    id = (ran_entry,)
+    my_cursor.execute(sql, id)
+    entry = my_cursor.fetchone()
+    print("Name: " + entry[0] + "\nDescription: " + entry[1])
 
-if choice == 1:
-    showTables()
-elif choice == 2:
-    showTables()
-    pop_choice = input("Select Table: ")
-    if pop_choice.upper() == "LOOT":
-        popLoot()
-    else:
-        popEst()
-    #After choosing a table, a random entry of the table will show
-elif choice == 3:
-    showTables()
-    table_choice = input("Select Table: ")
-    popLoot()
-    #After choosing a table, you can choose to Update, Drop or Generally modify the Table
-elif choice == 4:
-    #Choice of what type of table you want to create
-    #Loot, Encounter, Establishment etc
-    table_choice = input("Enter type of table: ")
-    if table_choice.upper() == "LOOT":
-        createLootTable()
-    elif table_choice.upper() == "ESTABLISHMENT":
-        createEstTable()
+while True:
+    print("1. SHOW TABLES\n"
+          "2. CHOOSE TABLE\n"
+          "3. MODIFY TABLE\n"
+          "4. CREATE TABLE\n"
+          "5. EXIT")
+    choice = int(input("Enter input: "))
+    if choice == 1:
+        showTables()
+        os.system('cls')
+    elif choice == 2:
+        showTables()
+        table_choice = input("Select Table: ")
+        if table_choice.upper() == "LOOT":
+            randomLoot()
+            os.system('cls')
+        else:
+            randomEst()
+            os.system('cls')
+        #After choosing a table, a random entry of the table will show
+    elif choice == 3:
+        showTables()
+        pop_choice = input("Select Table: ")
+        if pop_choice.upper() == "LOOT":
+            popLoot()
+            os.system('cls')
+        else:
+            popEst()
+            os.system('cls')
+        #After choosing a table, you can choose to Update, Drop or Generally modify the Table
+    elif choice == 4:
+        #Choice of what type of table you want to create
+        #Loot, Encounter, Establishment etc
+        table_choice = input("Enter type of table: ")
+        if table_choice.upper() == "LOOT":
+            createLootTable()
+            os.system('cls')
+        elif table_choice.upper() == "ESTABLISHMENT":
+            createEstTable()
+            os.system('cls')
+    elif choice == 5:
+        print("EXITING PROGRAM...")
+        exit()
