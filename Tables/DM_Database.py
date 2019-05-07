@@ -233,7 +233,7 @@ def updateLoot(pos, key):
     if pos.upper() == "NAME":
         sql = "UPDATE loot SET name = %s WHERE id = %s"
         id = (key,)
-        name = (input("Enter name: "))
+        name = (input("Enter name: "),)
         my_cursor.execute(sql, name, id)
         mydb.commit()
     elif pos.upper() == "DESCRIPTION":
@@ -250,7 +250,7 @@ def updateEst(pos, key):
     if pos.upper() == "NAME":
         sql = "UPDATE establishment SET name = %s WHERE id = %s"
         id = (key,)
-        name = (input("Enter name: "))
+        name = (input("Enter name: "),)
         my_cursor.execute(sql, name, id)
         mydb.commit()
     elif pos.upper() == "DESCRIPTION":
@@ -267,7 +267,7 @@ def updateEnc(pos, key):
     if pos.upper() == "NAME":
         sql = "UPDATE encounter SET name = %s WHERE id = %s"
         id = (key,)
-        name = (input("Enter name: "))
+        name = (input("Enter name: "),)
         my_cursor.execute(sql, name, id)
         mydb.commit()
     elif pos.upper() == "DESCRIPTION":
