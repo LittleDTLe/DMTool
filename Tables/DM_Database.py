@@ -18,6 +18,7 @@ def createLootTable():
     my_cursor.execute("CREATE TABLE loot (name VARCHAR(30), description MEDIUMTEXT, "
                       "id INTEGER(3) AUTO_INCREMENT PRIMARY KEY)")
     print("LOOT TABLE CREATED")
+    my_cursor.close()
 
 
 # CREATE ESTABLISHMENT TABLE
@@ -26,7 +27,7 @@ def createEstTable():
     my_cursor.execute("CREATE TABLE establishment (name VARCHAR(30), description MEDIUMTEXT, "
                       "id INTEGER(3) AUTO_INCREMENT PRIMARY KEY)")
     print("ESTABLISHMENT TABLE CREATED")
-
+    my_cursor.close()
 
 # CREATE ENCOUNTER TABLE
 def createEncTable():
@@ -34,6 +35,7 @@ def createEncTable():
     my_cursor.execute("CREATE TABLE encounter (name VARCHAR(30), description MEDIUMTEXT, "
                       "id INTEGER(3) AUTO_INCREMENT PRIMARY KEY)")
     print("ENCOUNTER TABLE CREATED")
+    my_cursor.close()
 
 
 # Show the available Tables
@@ -42,6 +44,7 @@ def showTables():
     my_cursor.execute("SHOW TABLES")
     for table in my_cursor:
         print(table[0])
+    my_cursor.close()
 
 
 # Populate Loot Table
@@ -65,6 +68,7 @@ def popLoot():
                 records[row][col] = input("Enter description: ")
     my_cursor.executemany(sql, records)
     mydb.commit()
+    my_cursor.close()
 
 
 # Populate Establishment Table
@@ -87,6 +91,7 @@ def popEst():
                 records[row][col] = input("Enter description: ")
     my_cursor.executemany(sql, records)
     mydb.commit()
+    my_cursor.close()
 
 
 # Populate Encounter Table
@@ -109,7 +114,7 @@ def popEnc():
                 records[row][col] = input("Enter description: ")
     my_cursor.executemany(sql, records)
     mydb.commit()
-
+    my_cursor.close()
 
 # Random Entry from Loot Table
 def randomLoot():
@@ -127,7 +132,7 @@ def randomLoot():
     my_cursor.execute(sql, id)
     entry = my_cursor.fetchone()
     print("Name: " + entry[0] + "\nDescription: " + entry[1])
-
+    my_cursor.close()
 
 # Random Entry from Establishment Table
 def randomEst():
@@ -145,7 +150,7 @@ def randomEst():
     my_cursor.execute(sql, id)
     entry = my_cursor.fetchone()
     print("Name: " + entry[0] + "\nDescription: " + entry[1])
-
+    my_cursor.close()
 
 # Radnom Entry from Encounter Table
 def randomEnc():
@@ -163,27 +168,28 @@ def randomEnc():
     my_cursor.execute(sql, id)
     entry = my_cursor.fetchone()
     print("Name: " + entry[0] + "\nDescription: " + entry[1])
-
+    my_cursor.close()
 
 # DROP Loot
 def dropLoot():
     my_cursor = mydb.cursor()
     my_cursor.execute("DROP TABLE IF EXISTS loot")
     print("Loot Table DROPPED...")
-
+    my_cursor.close()
 
 # DROP Establishment
 def dropEst():
     my_cursor = mydb.cursor()
     my_cursor.execute("DROP TABLE IF EXISTS establishment")
     print("Establisment Table DROPPED...")
-
+    my_cursor.close()
 
 # DROP Encounter
 def dropEnc():
     my_cursor = mydb.cursor()
     my_cursor.execute("DROP TABLE IF EXISTS encounter")
     print("Encounter Table DROPPED...")
+    my_cursor.close()
 
 # Modify Tables Content
 def modTables():
@@ -205,6 +211,7 @@ def printLoot():
     for row in result:
         print("NAME\tDESCRIPTION\t\tID")
         print(row[0], row[1] + "\t\t", row[2])
+    my_cursor.close()
 
 
 # Print Establisment Data
@@ -215,6 +222,7 @@ def printEst():
     for row in result:
         print("NAME\tDESCRIPTION\t\tID")
         print(row[0], row[1] + "\t\t", row[2])
+    my_cursor.close()
 
 
 # Print Encounter Data
@@ -225,57 +233,52 @@ def printEnc():
     for row in result:
         print("NAME\tDESCRIPTION\t\tID")
         print(row[0], row[1] + "\t\t", row[2])
-
+    my_cursor.close()
 
 # Update Loot Data
 def updateLoot(pos, key):
     my_cursor = mydb.cursor()
     if pos.upper() == "NAME":
-        sql = "UPDATE loot SET name = %s WHERE id = %s"
-        id = (key,)
+        position = key
         name = (input("Enter name: "))
-        my_cursor.execute(sql, name, id)
+        my_cursor.execute("UPDATE loot SET name = %s WHERE id = %s", (name, position))
         mydb.commit()
     elif pos.upper() == "DESCRIPTION":
-        sql = "UPDATE loot SET description = %s WHERE id = %s"
-        id = (key,)
+        position = key
         description = input("Enter description: ")
-        my_cursor.execute(sql, description, id)
+        my_cursor.execute("UPDATE loot SET description = %s WHERE id = %s", (description, position))
         mydb.commit()
-
+    my_cursor.close()
 
 # Update Establishment Data
 def updateEst(pos, key):
     my_cursor = mydb.cursor()
     if pos.upper() == "NAME":
-        sql = "UPDATE establishment SET name = %s WHERE id = %s"
-        id = (key,)
+        position = key
         name = (input("Enter name: "))
-        my_cursor.execute(sql, name, id)
+        my_cursor.execute("UPDATE establishment SET name = %s WHERE id = %s", (name, position))
         mydb.commit()
     elif pos.upper() == "DESCRIPTION":
-        sql = "UPDATE establishment SET description = %s WHERE id = %s"
-        id = (key,)
+        position = key
         description = input("Enter description: ")
-        my_cursor.execute(sql, description, id)
+        my_cursor.execute("UPDATE establishment SET description = %s WHERE id = %s", (description, position))
         mydb.commit()
-
+    my_cursor.close()
 
 # Update Encounter Data
 def updateEnc(pos, key):
     my_cursor = mydb.cursor()
     if pos.upper() == "NAME":
-        sql = "UPDATE encounter SET name = %s WHERE id = %s"
-        id = (key,)
         name = (input("Enter name: "))
-        my_cursor.execute(sql, name, id)
+        position = key
+        my_cursor.execute("UPDATE encounter SET name = %s WHERE id = %s", (name, position))
         mydb.commit()
     elif pos.upper() == "DESCRIPTION":
-        sql = "UPDATE encounter SET description = %s WHERE id = %s"
-        id = (key,)
         description = input("Enter description: ")
-        my_cursor.execute(sql, description, id)
+        position = key
+        my_cursor.execute("UPDATE encounter SET description = %s WHERE id = %s", (description, position))
         mydb.commit()
+    my_cursor.close()
 
 # Delete Entry from Loot
 def deleteLootData(key):
@@ -284,6 +287,7 @@ def deleteLootData(key):
     id = (key,)
     my_cursor.execute(sql, id)
     mydb.commit()
+    my_cursor.close()
 
 # Delete Entry from Establishment
 def deleteEstData(key):
@@ -292,6 +296,7 @@ def deleteEstData(key):
     id = (key,)
     my_cursor.execute(sql, id)
     mydb.commit()
+    my_cursor.close()
 
 # Delete Entry from Loot
 def deleteEncData(key):
@@ -300,6 +305,7 @@ def deleteEncData(key):
     id = (key,)
     my_cursor.execute(sql, id)
     mydb.commit()
+    my_cursor.close()
 
 # Modification Options
 def modOption():
