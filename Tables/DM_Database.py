@@ -3,10 +3,11 @@ import os
 import random
 
 mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    passwd="Panosfaganas1",
-    database="dm_database"
+    host="remotemysql.com",
+    user="JQFyduqy9D",
+    passwd="zb1jhRWhXp",
+    database="JQFyduqy9D",
+    port="3306"
 )
 
 
